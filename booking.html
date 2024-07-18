@@ -1,0 +1,248 @@
+<!-- Dropdown -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bus Booking System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Book a Seat</h1>
+      <form method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="seat_number">Select Seat Number:</label>
+        <select id="seat_number" name="seat_number" required>
+          {% for seat in range(1, 41) %}
+          <option
+            value="{{ seat }}"
+            {% if seat in booked_seats %}disabled{% endif%}
+            >Seat {{ seat }}</option
+          >
+          {% endfor %}
+        </select>
+
+        <button type="submit" class="btn">Book</button>
+      </form>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+      <a href="{{ url_for('index') }}" class="btn">Back to Home</a>
+    </div>
+  </body>
+</html> -->
+
+<!-- Single Line all seats -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bus Booking System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <style>
+      .seat {
+        width: 30px;
+        height: 30px;
+        margin: 5px;
+        background-color: #ccc;
+        text-align: center;
+        line-height: 30px;
+        cursor: pointer;
+      }
+      .seat.booked {
+        background-color: #ff4d4d;
+        cursor: not-allowed;
+      }
+      .seat.selected {
+        background-color: #4caf50;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Book a Seat</h1>
+      <form method="POST" id="bookingForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <input type="hidden" id="seat_number" name="seat_number" required />
+
+        <div id="seats">
+          {% for seat in range(1, 41) %}
+          <div
+            class="seat {% if seat in booked_seats %}booked{% endif %}"
+            data-seat="{{ seat }}"
+          >
+            {{ seat }}
+          </div>
+          {% endfor %}
+        </div>
+
+        <button type="submit" class="btn">Book</button>
+      </form>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+      <a href="{{ url_for('index') }}" class="btn">Back to Home</a>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const seats = document.querySelectorAll(".seat:not(.booked)");
+        seats.forEach((seat) => {
+          seat.addEventListener("click", function() {
+            seats.forEach((s) => s.classList.remove("selected"));
+            this.classList.add("selected");
+            document.getElementById("seat_number").value = this.getAttribute(
+              "data-seat"
+            );
+          });
+        });
+
+        document
+          .getElementById("bookingForm")
+          .addEventListener("submit", function(e) {
+            const selectedSeat = document.getElementById("seat_number").value;
+            if (!selectedSeat) {
+              e.preventDefault();
+              alert("Please select a seat");
+            }
+          });
+      });
+    </script>
+  </body>
+</html> -->
+
+<!-- Updated Seats -left, right -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bus Booking System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <style>
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .seat {
+        width: 30px;
+        height: 30px;
+        margin: 5px;
+        background-color: #ccc;
+        text-align: center;
+        line-height: 30px;
+        cursor: pointer;
+      }
+      .seat.booked {
+        background-color: #ff4d4d;
+        cursor: not-allowed;
+      }
+      .seat.selected {
+        background-color: #4caf50;
+      }
+      .left-panel,
+      .right-panel {
+        width: 45%;
+      }
+      .left-panel {
+        float: left;
+      }
+      .right-panel {
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form method="POST" id="bookingForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <input type="hidden" id="seat_number" name="seat_number" required />
+
+        <button type="submit" class="btn">Book</button>
+      </form>
+      <br />
+      <div class="left-panel">
+        <h1>Left Panel</h1>
+        <div id="left-seats">
+          {% for seat in range(1, 21) %}
+          <div
+            class="seat {% if seat in booked_seats %}booked{% endif %}"
+            data-seat="{{ seat }}"
+          >
+            {{ seat }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="right-panel">
+        <h1>Right Panel</h1>
+        <div id="right-seats">
+          {% for seat in range(21, 41) %}
+          <div
+            class="seat {% if seat in booked_seats %}booked{% endif %}"
+            data-seat="{{ seat }}"
+          >
+            {{ seat }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+    <a href="{{ url_for('index') }}" class="btn">Back to Home</a>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const seats = document.querySelectorAll(".seat:not(.booked)");
+        seats.forEach((seat) => {
+          seat.addEventListener("click", function() {
+            seats.forEach((s) => s.classList.remove("selected"));
+            this.classList.add("selected");
+            document.getElementById("seat_number").value = this.getAttribute(
+              "data-seat"
+            );
+          });
+        });
+
+        document
+          .getElementById("bookingForm")
+          .addEventListener("submit", function(e) {
+            const selectedSeat = document.getElementById("seat_number").value;
+            if (!selectedSeat) {
+              e.preventDefault();
+              alert("Please select a seat");
+            }
+          });
+      });
+    </script>
+  </body>
+</html>
+--> -->

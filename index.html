@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bus Booking System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bus Booking System</h1>
+      <p>Route: Pune to Thane West Station</p>
+      <p>Available Seats: {{ available_seats }}</p>
+      <a href="{{ url_for('book') }}" class="btn">Book a Seat</a>
+      <a href="{{ url_for('status') }}" class="btn">View Booking Status</a>
+    </div>
+  </body>
+</html>
